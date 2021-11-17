@@ -1,2 +1,3 @@
 /node_modules
-/projections/data/**/*.json
+*.log
+/projections/data/
