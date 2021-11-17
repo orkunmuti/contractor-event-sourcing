@@ -3,7 +3,6 @@ const events = {
   ContractTerminatedEvent: "ContractTerminatedEvent",
 };
 
-const eventFuncs = {
-  ContractCreatedEvent: createReadContract,
-  ContractTerminatedEvent: terminateReadContract,
+module.exports = {
+  events,
 };

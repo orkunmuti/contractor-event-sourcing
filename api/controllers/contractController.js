@@ -1,7 +1,16 @@
+const { receiver, state } = require("../events/eventStore");
+const {
+  ContractCreatedEvent,
+  ContractTerminatedEvent,
+} = require("../models/ContractEventModel");
+const db = require("../../projections/db");
+const { updateReadDb } = require("../readStore.js/events");
+
 const getContracts = async (req, res) => {
   try {
     const { page = 1, limit = 20 } = req.query;
     const contracts = db.readcontracts.find();
+    console.log(contracts);
     const totalPages = Math.ceil(contracts.length / limit);
     const offset = (page - 1) * limit;
     const dataToSend = contracts.slice(offset, offset + limit);
@@ -48,4 +57,10 @@ const terminateContract = async (req, res) => {
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
+};
+
+module.exports = {
+  getContracts,
+  createContract,
+  terminateContract,
 };

@@ -1,8 +1,15 @@
 const express = require("express");
 const contractRouter = express.Router();
+const {
+  getContracts,
+  createContract,
+  terminateContract,
+} = require("../controllers/contractController");
 
-app.get("/contracts", getContracts);
-app.post("/contracts/createContract", createContract);
-app.post("/contracts/terminateContract", terminateContract);
+contractRouter.get("/", getContracts);
+
+contractRouter.post("/createContract", createContract);
+
+contractRouter.post("/terminateContract", terminateContract);
 
 module.exports = contractRouter;

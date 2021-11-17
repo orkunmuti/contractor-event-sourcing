@@ -1,3 +1,6 @@
+const { v4: uuid } = require("uuid");
+const { events } = require("../constants/events");
+
 class ContractEvent {
   constructor({
     contractId = null,
@@ -37,3 +40,5 @@ class ContractTerminatedEvent extends ContractEvent {
     this.endDate = new Date();
   }
 }
+
+module.exports = { ContractCreatedEvent, ContractTerminatedEvent };
