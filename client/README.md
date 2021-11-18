@@ -6,16 +6,15 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm install` and `npm start` to start the app in development mode.
 
-Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 All api requests are directed to server with `http://localhost:5000` proxy which is defined in `package.json`
 
 ## Folder structure
 
-Since we have 1 page to show, project only consists of additional `/components` folder for React components and `/constants` for types, api information etc.
+Since we have 1 page to show, project only consists of additional `/components` folder for React components and `/constants` for types, api information etc. and `utils` for util functions.
 
 # Components
 
