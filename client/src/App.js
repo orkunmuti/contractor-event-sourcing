@@ -1,5 +1,3 @@
-import logo from "./logo.svg";
-import "./App.css";
 import ContractList from "./components/Contract/ContractList";
 import AppBar from "./components/AppBar";
 
