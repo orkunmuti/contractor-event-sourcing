@@ -1,6 +1,6 @@
 # Getting started with server
 
-This application is made by using `Node.js and Express library`.
+This application is made by using `Node.js and Express library`. You can use [postman collection](https://github.com/orkunmuti/contractor-event-sourcing/blob/main/server/EventSourcing.postman_collection.json) to test endpoints.
 
 ### Scripts
 
