@@ -3,54 +3,18 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Pagination from "@mui/material/Pagination";
-import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/Button";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Dialog from "./Dialog";
-import dialogAnswers from "../../constants/dialogAnswers";
 import api from "../../constants/api";
-
-const events = {
-  termination: "termination",
-  creation: "creation",
-};
-
-const dialogs = {
-  termination: {
-    title: "Terminate contract",
-    message: "Do you really want to terminate this contract?",
-  },
-  creation: {
-    title: "Create contract",
-    message: "Do you really want to create a contract?",
-  },
-};
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
+import { dialogAnswers, dialogs, events } from "../../constants/constants";
+import { convertDateToISOString } from "../../utils/utils";
+import StyledTableCell from "./StyledTableCell";
+import StyledTableRow from "./StyledTableRow";
+import ListPagination from "./ListPagination";
 
 export default function ContractList() {
   const [contractList, setContractList] = useState([]);
@@ -123,10 +87,9 @@ export default function ContractList() {
     }
   };
 
-  function convertUTCDateToLocalDate(date) {
-    if (date === null) return null;
-    return new Date(date).toISOString().replace(/T/, " ").replace(/\..+/, "");
-  }
+  const onPagination = (event, value) => {
+    setPage(value);
+  };
 
   const renderContracts = () => {
     if (contractList == null || contractList.length == 0) return [];
@@ -136,11 +99,11 @@ export default function ContractList() {
           <StyledTableRow key={contractId}>
             <StyledTableCell>{contractId}</StyledTableCell>
             <StyledTableCell>
-              {convertUTCDateToLocalDate(startDate)}
+              {convertDateToISOString(startDate)}
             </StyledTableCell>
             <StyledTableCell>{premium}</StyledTableCell>
             <StyledTableCell>
-              {convertUTCDateToLocalDate(terminationDate)}
+              {convertDateToISOString(terminationDate)}
             </StyledTableCell>
             <StyledTableCell>
               {!Date.parse(terminationDate) && (
@@ -157,22 +120,6 @@ export default function ContractList() {
         );
       }
     );
-  };
-
-  const renderPagination = () => {
-    return (
-      <div style={{ display: "flex", margin: "1rem" }}>
-        <Pagination
-          count={totalPages}
-          color="primary"
-          onChange={(event, value) => onPagination(event, value)}
-        />
-      </div>
-    );
-  };
-
-  const onPagination = (event, value) => {
-    setPage(value);
   };
 
   const renderTable = () => {
@@ -216,7 +163,7 @@ export default function ContractList() {
   return (
     <div style={styles.mainContainer}>
       {renderTable()}
-      {renderPagination()}
+      <ListPagination totalPages={totalPages} onPagination={onPagination} />
     </div>
   );
 }
