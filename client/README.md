@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Getting Started with client code
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -11,60 +11,35 @@ In the project directory, you can run:
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+All api requests are directed to server with `http://localhost:5000` proxy which is defined in `package.json`
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Folder structure
 
-### `npm run build`
+Since we have 1 page to show, project only consists of additional `/components` folder for React components and `/constants` for types, api information etc.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Components
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## ContractList
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`ContractList` is the main component used for applying user related tasks like show/create/terminate contracts. Additional `material/ui` library is used for production ready styled components.
 
-### `npm run eject`
+### Show contracts
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+When the user opens the home page, a request is sent to server to get current contracts sorted by `startDate` based on `page` and `pageLimit` info. There is an additional `Pagination` component on the bottom which is responsible of change the current page. There is an `useEffect` hook implemented to handle the new data when the page changes.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Create contract
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+When the user clicks `Create Contract` button, post request is sent to server and the resulting data is joined with the recent data that comes from the response.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Terminate contract
 
-## Learn More
+When the user clicks `TrashIcon` on the row, post request is sent to server and the resulting data's endDate is applied to the selected contract.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Dialog
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+`Dialog` is used for showing user dialog when they want to create/terminate contract. The dialog content(title,description) and also the callback function which runs when the user accepts the dialog changes dynamically via props given by parent component.
 
-### Code Splitting
+# Routing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+No routing has been used since there is only page to show.
