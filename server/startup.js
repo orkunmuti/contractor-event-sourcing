@@ -7,9 +7,10 @@ const {
 const { events, eventFuncs } = require("./api/constants/events");
 
 const { receiver, state } = require("./api/events/eventStore");
+const { updateReadDb } = require("./api/readStore.js/events");
 
 const createEventInstance = (event) => {
-  const { name, premium, contractId, startDate, endDate } = event;
+  const { name, premium, contractId, startDate, terminationDate } = event;
 
   if (event.name === events.ContractCreatedEvent) {
     return new ContractCreatedEvent({
@@ -17,7 +18,7 @@ const createEventInstance = (event) => {
       premium,
       contractId,
       startDate,
-      endDate,
+      terminationDate,
     });
   } else {
     return new ContractTerminatedEvent({
@@ -25,7 +26,7 @@ const createEventInstance = (event) => {
       premium,
       contractId,
       startDate,
-      endDate,
+      terminationDate,
     });
   }
 };

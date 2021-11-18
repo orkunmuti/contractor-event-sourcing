@@ -96,7 +96,7 @@ export default function ContractList() {
     const res = await axios.post(api.TERMINATE_CONTRACT, data);
     const { data: terminatedContract } = res;
 
-    data.endDate = terminatedContract.endDate;
+    data.terminationDate = terminatedContract.terminationDate;
     setContractList(list);
     setDialogOpen(false);
   };
@@ -117,29 +117,33 @@ export default function ContractList() {
 
   const renderContracts = () => {
     if (contractList == null || contractList.length == 0) return [];
-    return contractList.map(({ contractId, startDate, endDate, premium }) => {
-      return (
-        <StyledTableRow key={contractId}>
-          <StyledTableCell>{contractId}</StyledTableCell>
-          <StyledTableCell>
-            {convertUTCDateToLocalDate(startDate)}
-          </StyledTableCell>
-          <StyledTableCell>{premium}</StyledTableCell>
-          <StyledTableCell>
-            {convertUTCDateToLocalDate(endDate)}
-          </StyledTableCell>
-          <StyledTableCell>
-            {!Date.parse(endDate) && (
-              <Button
-                onClick={() => handleDialogOpen(contractId, events.termination)}
-              >
-                <DeleteForeverOutlinedIcon sx={styles.deleteIcon} />
-              </Button>
-            )}
-          </StyledTableCell>
-        </StyledTableRow>
-      );
-    });
+    return contractList.map(
+      ({ contractId, startDate, terminationDate, premium }) => {
+        return (
+          <StyledTableRow key={contractId}>
+            <StyledTableCell>{contractId}</StyledTableCell>
+            <StyledTableCell>
+              {convertUTCDateToLocalDate(startDate)}
+            </StyledTableCell>
+            <StyledTableCell>{premium}</StyledTableCell>
+            <StyledTableCell>
+              {convertUTCDateToLocalDate(terminationDate)}
+            </StyledTableCell>
+            <StyledTableCell>
+              {!Date.parse(terminationDate) && (
+                <Button
+                  onClick={() =>
+                    handleDialogOpen(contractId, events.termination)
+                  }
+                >
+                  <DeleteForeverOutlinedIcon sx={styles.deleteIcon} />
+                </Button>
+              )}
+            </StyledTableCell>
+          </StyledTableRow>
+        );
+      }
+    );
   };
 
   const renderPagination = () => {

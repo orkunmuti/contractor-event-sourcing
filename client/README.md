@@ -13,7 +13,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 All api requests are directed to server with `http://localhost:5000` proxy which is defined in `package.json`
 
-
 ## Folder structure
 
 Since we have 1 page to show, project only consists of additional `/components` folder for React components and `/constants` for types, api information etc.
@@ -34,7 +33,7 @@ When the user clicks `Create Contract` button, post request is sent to server an
 
 ### Terminate contract
 
-When the user clicks `TrashIcon` on the row, post request is sent to server and the resulting data's endDate is applied to the selected contract.
+When the user clicks `TrashIcon` on the row, post request is sent to server and the resulting data's terminationDate is applied to the selected contract.
 
 ## Dialog
 
