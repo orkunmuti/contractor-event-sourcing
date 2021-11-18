@@ -1,0 +1,107 @@
+{
+	"info": {
+		"_postman_id": "b95ce1eb-6da0-4b79-9541-d675ecbd2536",
+		"name": "EventSourcing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "contracts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/contracts?page=1&limit=20",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"contracts"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "contracts",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/contracts/createContract",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"contracts",
+						"createContract"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "contracts",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contractId\": \"765\",\r\n    \"startDate\": \"2020-01-01\",\r\n    \"premium\": 100,\r\n    \"endDate\": null,\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/contracts/terminateContract",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"contracts",
+						"terminateContract"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000"
+		}
+	]
+}
