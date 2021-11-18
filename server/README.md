@@ -100,7 +100,29 @@ Terminates the contract and returns the new state of the contract to the user. I
 
 - `createContract` controller returns the `ContractCreatedEvent` event to the client before whole process ends which leads to `Eventual consistency`
 
+## Models
 
+`ContractEvent` is the base class for creating contract related events, it is comprised fields which is given in test data. Compared to test data, `uuid` is used as `id` to be able to handles uniquness.
 
+`ContractCreatedEvent` and `ContractTerminatedEvent` inherits `ContractEvent`
 
+## ReadStore
+
+Consists of the functions that runs when `create` or `terminate` events happen. Responsible for updating `diskdb` which is only for showing last state of the contracts to the clients. Read db is temporary and not that important, because we can create it by replaying the events when in case of a data loss.
+
+## EventStore
+
+Initializes the event sourcing classes
+
+## EventHandlers
+
+Handles the events that comes from `Receiver`
+
+## Projections
+
+Stores the initial `test` data and `projection` data that we show to customer
+
+## Data
+
+Stores the `eventLogs` but ignored in .git, you can see it in your local folder if you happen to run any event
 
