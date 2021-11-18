@@ -126,7 +126,7 @@ Stores the initial `test` data and `projection` data that we show to customer
 
 Stores the `eventLogs` but ignored in .git, you can see it in your local folder if you happen to run any event
 
-#Tests
+# Tests
 
 You can run the tests by `npm test` command.
 
