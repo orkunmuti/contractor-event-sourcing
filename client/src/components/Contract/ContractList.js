@@ -85,29 +85,42 @@ export default function ContractList() {
   };
 
   const onCreation = async () => {
-    const res = await axios.post(api.CREATE_CONTRACT);
-    const { data } = res;
-    setContractList([data, ...contractList]);
+    try {
+      const res = await axios.post(api.CREATE_CONTRACT);
+      const { data } = res;
+      setContractList([data, ...contractList]);
+    } catch (error) {
+      console.log(error);
+    }
+    setDialogOpen(false);
   };
 
   const onTerminate = async () => {
-    const list = [...contractList];
-    const data = list.find(({ contractId }) => contractId === toTerminateId);
-    const res = await axios.post(api.TERMINATE_CONTRACT, data);
-    const { data: terminatedContract } = res;
+    try {
+      const list = [...contractList];
+      const data = list.find(({ contractId }) => contractId === toTerminateId);
+      const res = await axios.post(api.TERMINATE_CONTRACT, data);
+      const { data: terminatedContract } = res;
 
-    data.terminationDate = terminatedContract.terminationDate;
-    setContractList(list);
+      data.terminationDate = terminatedContract.terminationDate;
+      setContractList(list);
+    } catch (error) {
+      console.log(error);
+    }
     setDialogOpen(false);
   };
 
   const getList = async () => {
-    const { data: res } = await axios.get(
-      `${api.GET_CONTRACTS}?page=${page}&limit=${pageLimit}`
-    );
-    const { data, totalPages } = res;
-    setContractList(data);
-    setTotalPages(totalPages);
+    try {
+      const { data: res } = await axios.get(
+        `${api.GET_CONTRACTS}?page=${page}&limit=${pageLimit}`
+      );
+      const { data, totalPages } = res;
+      setContractList(data);
+      setTotalPages(totalPages);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   function convertUTCDateToLocalDate(date) {
