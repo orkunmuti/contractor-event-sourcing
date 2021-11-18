@@ -72,7 +72,7 @@ Creates a contract and returns the result to the user. Since this a sample proje
 
 Terminates the contract and returns the new state of the contract to the user. In this case only the `terminationDate` changes and we apply the change to our current array. Again `Eventual Consistency` is here as explained above. The client sends the contract to be terminated in the request body in `json` format.
 
-## What happens when client executes and event command through API, for example creating contract?
+## What happens when client sends a post request through API, for example creating contract?
 
 - `Receiver`, `Archiver`,`Processor`,`State Reader` are initialized when the express app is started.
 
