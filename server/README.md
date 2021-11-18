@@ -4,7 +4,7 @@ This application is made by using `Node.js and Express library`. You can use [po
 
 ### Scripts
 
-In order to run the application, just open the server folder and run `npm start` command. The application will start serving at port `5000`.
+In order to run the application, just open the server folder and run `npm install` and  `npm start` consecutively. The application will start serving at port `5000`.
 
 ## Architecture
 
@@ -125,4 +125,20 @@ Stores the initial `test` data and `projection` data that we show to customer
 ## Data
 
 Stores the `eventLogs` but ignored in .git, you can see it in your local folder if you happen to run any event
+
+#Tests
+
+You can run the tests by `npm test` command.
+
+There are 4 tests in the suite, which are for:
+
+- Test if GET contracts endpoint is working fine
+
+- Test if POST contract/createContract is working fine and returning a stable result
+
+- Test if POST contract/terminateContract would fail if we supply no body in the request
+
+- Test if POST contract/terminateContract is working fine and returning a stable result based on the before function we ran before starting tests.
+
+You can see also see all of the tests [from here](https://github.com/orkunmuti/contractor-event-sourcing/blob/main/server/test/apiTest.js)
 
