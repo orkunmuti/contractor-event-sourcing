@@ -32,15 +32,18 @@ const createEventInstance = (event) => {
 };
 
 const initializeDb = () => {
-  const reads = JSON.parse(
-    fs.readFileSync(__dirname + "/projections/data/readcontracts.json")
-  );
+  const contractsPath = __dirname + "/projections/data/readcontracts.json";
+  if (!fs.existsSync(contractsPath)) {
+    fs.appendFile(contractsPath, []);
+  }
+
+  const reads = JSON.parse(fs.readFileSync(contractsPath));
 
   if (reads.length > 0) return;
 
   const readInterface = readline.createInterface({
     input: fs.createReadStream(
-      __dirname + "/projections/data/test-data-full-stack.txt"
+      __dirname + "/projections/test-data-full-stack.txt"
     ),
     console: false,
   });

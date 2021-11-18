@@ -26,7 +26,7 @@ const eventFuncs = {
 };
 
 const updateReadDb = (event) => {
-  if (event == null) return;
+  if (event == null || event.name == null) return;
   const { name } = event;
   eventFuncs[name](event);
 };
