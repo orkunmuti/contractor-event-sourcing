@@ -3,17 +3,15 @@ const {
   ContractCreatedEvent,
   ContractTerminatedEvent,
 } = require("../models/ContractEventModel");
-const db = require("../../projections/db");
-const { updateReadDb } = require("../readStore.js/events");
+const { updateReadDb, readContracts } = require("../readStore.js/events");
 
 const getContracts = async (req, res) => {
   try {
     let { page = 1, limit = 20 } = req.query;
     page = Number(page);
     limit = Number(limit);
-    console.log(req.body);
 
-    const contracts = db.readcontracts.find();
+    const contracts = readContracts() || [];
     contracts.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
 
     const totalPages = Math.ceil(contracts.length / limit);

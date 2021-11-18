@@ -32,28 +32,38 @@ const createEventInstance = (event) => {
 };
 
 const initializeDb = () => {
-  const contractsPath = __dirname + "/projections/data/readcontracts.json";
-  const reads = JSON.parse(fs.readFileSync(contractsPath));
+  try {
+    const contractsPath = __dirname + "/projections/data/readcontracts.json";
+    const reads = JSON.parse(fs.readFileSync(contractsPath));
 
-  if (reads.length > 0) return;
+    if (reads.length > 0) return;
 
-  const readInterface = readline.createInterface({
-    input: fs.createReadStream(
-      __dirname + "/projections/test-data-full-stack.txt"
-    ),
-    console: false,
-  });
+    const readInterface = readline.createInterface({
+      input: fs.createReadStream(
+        __dirname + "/projections/test-data-full-stack.txt"
+      ),
+      console: false,
+    });
 
-  readInterface.on("line", function (line) {
-    let event = JSON.parse(line);
-    event = createEventInstance(event);
+    readInterface.on("line", function (line) {
+      try {
+        let event = JSON.parse(line);
+        event = createEventInstance(event);
 
-    const { contractId, name } = event;
-    const eventToEmit = { eventType: name, event };
-    receiver.emit(eventToEmit);
-    state.subscribe(contractId, () => updateReadDb(event));
-    state.unsubscribe(contractId);
-  });
+        const { contractId, name } = event;
+        const eventToEmit = { eventType: name, event };
+        receiver.emit(eventToEmit);
+        state.subscribe(contractId, () => updateReadDb(event));
+        state.unsubscribe(contractId);
+      } catch (error) {
+        console.log(error)
+      }
+
+    });
+  } catch (error) {
+    console.log(error)
+  }
+
 };
 
 module.exports = { initializeDb };
