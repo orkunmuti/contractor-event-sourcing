@@ -70,7 +70,37 @@ Creates a contract and returns the result to the user. Since this a sample proje
 
 `POST /contracts/terminateContract`
 
-Terminates the contract and returns the new state of the contract to the user. In this case only the `endDate` changes
+Terminates the contract and returns the new state of the contract to the user. In this case only the `terminationDate` changes and we apply the change to our current array. Again `Eventual Consistency` is here as explained above. The client sends the contract to be terminated in the request body in `json` format.
+
+## What happens when client executes and event command through API, for example creating contract?
+
+- `Receiver`, `Archiver`,`Processor`,`State Reader` are initialized when the express app is started.
+
+- `Receiver` is responsible of emitting events based on client requests
+
+- `Archiver` is responsible of logging events
+
+- `Processor` is responsible of handling events sent by `Receiver`, in our case it updates state db.
+
+- `State Reader` is responsible of storing events in `key-value` fashion, in our case `contractId` is key and related `events` array is value.
+
+- Request comes to `/contracts/createContrat` and runs the related `createContract` controller asynchronously.
+
+- We need to create and event which maps to this command. `ContractCreatedEvent` is created.
+
+- `Receiver` emits this event
+
+- `Processor` grabs the event and updates the `State Reader`
+
+- `Archiver` logs the event
+
+- `State Reader` is subscribed to change on `contractId`, calls `createReadContract` function to update `diskdb`
+
+- `DiskDb` checks if there is no duplicate `contractId`, if not saves the new contract to `json` file
+
+- `createContract` controller returns the `ContractCreatedEvent` event to the client before whole process ends which leads to `Eventual consistency`
+
+
 
 
 
