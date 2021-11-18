@@ -23,7 +23,8 @@ All events are stored in a log file and in addition to that there is a in memory
 In order to send the user the latest state of a contract, we need to process the contract out of previous events. But it is kind of cumbersome to do this type of thing with every request.
 That's why I have added an simple in memory database called `diskdb`. It's also a in memory database and stores the objects in a `json` file in the project directory. 
 The responsibility of this database is to subscribe to the event store and to create the current state of the contract based on events. So it more like a conventional database where we use 
-`CRUD` operations. This allows us from not processing every contract on `get` and single contract in `post` requests.
+`CRUD` operations. This allows us from not processing every contract on `get` and single contract in `post` requests. In terms of `CQRS`, this db is used for `Query` part mostly, 
+that is updated by `Commands`.
 
 ![image](https://user-images.githubusercontent.com/16900879/142380001-b11d8025-07f1-4f39-96dd-2c53cd5fb30c.png)
 
@@ -38,3 +39,38 @@ The responsibility of this database is to subscribe to the event store and to cr
 If this was a production project, architecture could be like below:
 
 ![image](https://user-images.githubusercontent.com/16900879/142380577-99197be8-924d-41fa-a041-c5c09b61b3cd.png)
+
+## On Startup
+
+Before the application starts, we need to make use of a startup function because we have already have test data in hand and want to bootstrap the application with this data. 
+Startup script basically checks if the `diskdb/contracts` is empty and based on this result reads the `test-data-full-stack.txt` line by line to create `events` and also updates the `diskdb` based on those events.
+
+## API Design
+
+The endpoints are not designed like `REST` because we use `CQRS` and REST mostly can't handle those type of requests gracefully. We might have 5 operations on `contracts`, so `GET,POST,PATCH,DELETE` etc. won't be enough to cover all cases. That is why, the endpoints are architectured as `RPC`. 
+
+### For example:
+
+IN REST:  `POST/contracts`
+
+IN RPC:  `POST/contracts/createContract` (used)
+
+## Endpoints
+
+There are 3 endpoints, which are for `get contracts` , `create contract` and `terminate contract`.
+
+`GET /contracts?page={1}&limit=20`
+
+Send paginated contracts to user that is sorted by `startDate`. To make use of `RPC` based enpoint, we also could have used `contracts/getContracts`, but for this project we don't need that.
+
+`POST /contracts/createContract`
+
+Creates a contract and returns the result to the user. Since this a sample project, a default contract is created and we don't need any input request body for this operation. 
+`Eventual Consistency` is used here to make `UI/UX` better for the client. We assume that the operation is successful and return an instance of a contract to the user before database operations end. Of course this is a trade off, there might be cases where `ACID` properties and consistency is too important. Based on requirements `Strong consistency` also can be used by waiting until the operation ends. Or we can make the contract state `processing` and send this to user. When the operation ends, a queueing system like `RabbitMQ` can send the recent state of the contract to the user.
+
+`POST /contracts/terminateContract`
+
+Terminates the contract and returns the new state of the contract to the user. In this case only the `endDate` changes
+
+
+
