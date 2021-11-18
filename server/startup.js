@@ -38,7 +38,9 @@ const initializeDb = () => {
   if (reads.length > 0) return;
 
   const readInterface = readline.createInterface({
-    input: fs.createReadStream(__dirname + "/test/test-data-full-stack.txt"),
+    input: fs.createReadStream(
+      __dirname + "/projections/data/test-data-full-stack.txt"
+    ),
     console: false,
   });
 

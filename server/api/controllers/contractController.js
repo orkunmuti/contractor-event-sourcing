@@ -8,12 +8,19 @@ const { updateReadDb } = require("../readStore.js/events");
 
 const getContracts = async (req, res) => {
   try {
-    const { page = 1, limit = 20 } = req.query;
+    let { page = 1, limit = 20 } = req.query;
+    page = Number(page);
+    limit = Number(limit);
+    console.log(req.body);
+
     const contracts = db.readcontracts.find();
-    console.log(contracts);
+    contracts.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+
     const totalPages = Math.ceil(contracts.length / limit);
     const offset = (page - 1) * limit;
+
     const dataToSend = contracts.slice(offset, offset + limit);
+    dataToSend.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
     res.send({ data: dataToSend, totalPages, page });
   } catch (error) {
     res.status(404).json({ message: error.message });
