@@ -33,10 +33,6 @@ const createEventInstance = (event) => {
 
 const initializeDb = () => {
   const contractsPath = __dirname + "/projections/data/readcontracts.json";
-  if (!fs.existsSync(contractsPath)) {
-    fs.appendFile(contractsPath, []);
-  }
-
   const reads = JSON.parse(fs.readFileSync(contractsPath));
 
   if (reads.length > 0) return;
