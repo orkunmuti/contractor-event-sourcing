@@ -15,6 +15,7 @@ const createReadContract = (event) => {
     const item = db.readcontracts?.findOne({ contractId });
     if (item) return;
     delete event.name;
+    event.terminationDate = null;
     db.readcontracts.save(event);
   } catch (error) {
     console.log(error)

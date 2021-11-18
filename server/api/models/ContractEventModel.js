@@ -4,13 +4,13 @@ const { events } = require("../constants/events");
 class ContractEvent {
   constructor({
     contractId = null,
-    startDate = new Date(),
-    terminationDate = null,
+    startDate,
+    terminationDate,
     premium = 100,
   }) {
     this.contractId = contractId || uuid();
     this.name = null;
-    this.startDate = startDate;
+    this.startDate = startDate || new Date();
     this.premium = premium || 0;
     this.terminationDate = terminationDate;
   }
@@ -37,7 +37,7 @@ class ContractTerminatedEvent extends ContractEvent {
   constructor(args) {
     super(args);
     this.name = events.ContractTerminatedEvent;
-    this.terminationDate = new Date();
+    this.terminationDate = args?.terminationDate || new Date();
   }
 }
 

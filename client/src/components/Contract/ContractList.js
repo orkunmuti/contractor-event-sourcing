@@ -66,7 +66,7 @@ export default function ContractList() {
       const res = await axios.post(api.TERMINATE_CONTRACT, data);
       const { data: terminatedContract } = res;
 
-      data.terminationDate = terminatedContract.terminationDate;
+      data.terminationDate = terminatedContract?.terminationDate;
       setContractList(list);
     } catch (error) {
       console.log(error);

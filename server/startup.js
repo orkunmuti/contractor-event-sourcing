@@ -18,7 +18,6 @@ const createEventInstance = (event) => {
       premium,
       contractId,
       startDate,
-      terminationDate,
     });
   } else {
     return new ContractTerminatedEvent({

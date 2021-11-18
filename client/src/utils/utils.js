@@ -1,4 +1,4 @@
 export const convertDateToISOString = (date) => {
-  if (date === null) return null;
+  if (date === null || !Date.parse(date)) return null;
   return new Date(date).toISOString().replace(/T/, " ").replace(/\..+/, "");
 };
